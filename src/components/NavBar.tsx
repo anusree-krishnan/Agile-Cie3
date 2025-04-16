@@ -1,14 +1,14 @@
 
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
-import { Tshirt } from "lucide-react";
+import { Shirt } from "lucide-react";
 
 const NavBar = () => {
   return (
     <nav className="bg-white border-b border-gray-200 py-3 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-2">
-          <Tshirt className="h-6 w-6 text-primary" />
+          <Shirt className="h-6 w-6 text-primary" />
           <span className="font-display text-xl font-medium">Fashion Sense</span>
         </div>
         <div className="flex items-center space-x-4">
