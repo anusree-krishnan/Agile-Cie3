@@ -2,10 +2,12 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHeader, TableHead, TableRow } from "@/components/ui/table";
 import ModelCard from "./ModelCard";
 
 const ModelsSection = () => {
   const [selectedTab, setSelectedTab] = useState("overview");
+  const [selectedModel, setSelectedModel] = useState("Logistic Regression");
   
   const models = [
     {
@@ -40,6 +42,128 @@ const ModelsSection = () => {
       weaknesses: ["Assumes Independence", "Lower Accuracy"],
       trainingTime: "Very Fast",
     },
+  ];
+
+  // Fashion MNIST class labels
+  const labels = [
+    "T-shirt/top", "Trouser", "Pullover", "Dress", "Coat",
+    "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot"
+  ];
+
+  // Mock confusion matrix data for each model
+  const confusionMatrices = {
+    "Logistic Regression": [
+      [85, 0, 2, 3, 1, 0, 9, 0, 0, 0],
+      [0, 94, 0, 1, 0, 0, 0, 0, 5, 0],
+      [4, 0, 78, 2, 12, 0, 4, 0, 0, 0],
+      [3, 0, 1, 86, 4, 0, 6, 0, 0, 0],
+      [0, 0, 5, 0, 88, 0, 1, 0, 0, 6],
+      [0, 0, 0, 0, 0, 92, 0, 3, 2, 3],
+      [9, 0, 2, 5, 3, 0, 81, 0, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 97, 0, 2],
+      [1, 0, 0, 1, 1, 1, 0, 0, 96, 0],
+      [0, 0, 0, 0, 3, 3, 0, 2, 0, 92]
+    ],
+    "Decision Tree": [
+      [78, 0, 4, 5, 2, 0, 11, 0, 0, 0],
+      [0, 90, 1, 2, 0, 0, 0, 0, 7, 0],
+      [6, 0, 72, 3, 14, 0, 5, 0, 0, 0],
+      [5, 0, 2, 80, 6, 0, 7, 0, 0, 0],
+      [1, 0, 7, 0, 84, 0, 1, 0, 0, 7],
+      [0, 0, 0, 0, 0, 88, 0, 5, 3, 4],
+      [12, 0, 3, 7, 4, 0, 74, 0, 0, 0],
+      [0, 0, 0, 0, 0, 2, 0, 94, 0, 4],
+      [2, 1, 0, 2, 1, 1, 0, 0, 93, 0],
+      [0, 0, 0, 0, 4, 4, 0, 3, 0, 89]
+    ],
+    "SVM": [
+      [87, 0, 1, 2, 1, 0, 9, 0, 0, 0],
+      [0, 95, 0, 0, 0, 0, 0, 0, 5, 0],
+      [3, 0, 81, 1, 11, 0, 4, 0, 0, 0],
+      [2, 0, 0, 89, 3, 0, 6, 0, 0, 0],
+      [0, 0, 4, 0, 90, 0, 1, 0, 0, 5],
+      [0, 0, 0, 0, 0, 93, 0, 2, 2, 3],
+      [7, 0, 1, 4, 2, 0, 86, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 98, 0, 2],
+      [0, 0, 0, 0, 0, 1, 0, 0, 99, 0],
+      [0, 0, 0, 0, 2, 2, 0, 1, 0, 95]
+    ],
+    "Naive Bayes": [
+      [75, 0, 5, 5, 2, 0, 13, 0, 0, 0],
+      [0, 85, 2, 3, 0, 0, 0, 0, 10, 0],
+      [8, 0, 65, 5, 16, 0, 6, 0, 0, 0],
+      [7, 0, 3, 75, 7, 0, 8, 0, 0, 0],
+      [2, 0, 9, 0, 79, 0, 2, 0, 0, 8],
+      [0, 0, 0, 0, 0, 82, 0, 7, 5, 6],
+      [15, 0, 4, 9, 5, 0, 67, 0, 0, 0],
+      [0, 0, 0, 0, 0, 3, 0, 89, 0, 8],
+      [3, 2, 0, 3, 2, 2, 0, 0, 88, 0],
+      [0, 0, 0, 0, 6, 6, 0, 5, 0, 83]
+    ]
+  };
+
+  // Mock sample predictions data
+  const samplePredictions = [
+    {
+      image: "https://i.imgur.com/5isgDAA.png",
+      true: "T-shirt/top",
+      pred: "T-shirt/top",
+      correct: true
+    },
+    {
+      image: "https://i.imgur.com/1RxPYqe.png",
+      true: "Trouser",
+      pred: "Trouser",
+      correct: true
+    },
+    {
+      image: "https://i.imgur.com/n16sZLc.png",
+      true: "Pullover",
+      pred: "Coat",
+      correct: false
+    },
+    {
+      image: "https://i.imgur.com/VQbQTbh.png",
+      true: "Dress",
+      pred: "Dress",
+      correct: true
+    },
+    {
+      image: "https://i.imgur.com/63Qpx7K.png",
+      true: "Coat",
+      pred: "Coat",
+      correct: true
+    },
+    {
+      image: "https://i.imgur.com/hh2bHHJ.png",
+      true: "Sandal",
+      pred: "Sandal",
+      correct: true
+    },
+    {
+      image: "https://i.imgur.com/4jF5SQ5.png",
+      true: "Shirt",
+      pred: "T-shirt/top",
+      correct: false
+    },
+    {
+      image: "https://i.imgur.com/AUJVGu7.png",
+      true: "Sneaker",
+      pred: "Sneaker",
+      correct: true
+    },
+    {
+      image: "https://i.imgur.com/aB5BM7j.png",
+      true: "Bag",
+      pred: "Bag",
+      correct: true
+    },
+    {
+      image: "https://i.imgur.com/Gh3lddS.png",
+      true: "Ankle boot",
+      pred: "Ankle boot",
+      correct: true
+    }
   ];
 
   return (
@@ -105,21 +229,64 @@ const ModelsSection = () => {
           </TabsContent>
           
           <TabsContent value="confusion">
-            <div className="text-center p-12 bg-white rounded-lg shadow-sm">
-              <h3 className="font-display text-xl font-semibold mb-6">Confusion Matrices</h3>
-              <p className="text-gray-500 mb-4">Select a model to view its confusion matrix</p>
-              <div className="flex flex-wrap justify-center gap-4 mb-8">
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <h3 className="font-display text-xl font-semibold mb-6 text-center">Confusion Matrix</h3>
+              <div className="flex flex-wrap justify-center gap-4 mb-6">
                 {models.map((model, index) => (
                   <button
                     key={index}
-                    className="px-4 py-2 rounded-full text-sm bg-secondary hover:bg-primary hover:text-white transition-colors"
+                    className={`px-4 py-2 rounded-full text-sm transition-colors ${
+                      selectedModel === model.name 
+                        ? 'bg-primary text-white' 
+                        : 'bg-secondary hover:bg-primary hover:text-white'
+                    }`}
+                    onClick={() => setSelectedModel(model.name)}
                   >
                     {model.name}
                   </button>
                 ))}
               </div>
-              <div className="py-12 flex justify-center">
-                <p className="text-gray-400 italic">Select a model to display its confusion matrix</p>
+              
+              <div className="overflow-x-auto">
+                <Table className="min-w-full">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[100px]">Actual ↓ Pred →</TableHead>
+                      {labels.map((label, i) => (
+                        <TableHead key={i} className="text-center text-xs">
+                          {i}
+                        </TableHead>
+                      ))}
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {confusionMatrices[selectedModel as keyof typeof confusionMatrices].map((row, i) => (
+                      <TableRow key={i}>
+                        <TableCell className="font-medium text-xs">
+                          {i}: {labels[i].slice(0, 6)}
+                        </TableCell>
+                        {row.map((cell, j) => (
+                          <TableCell 
+                            key={j} 
+                            className="text-center p-2"
+                            style={{
+                              backgroundColor: i === j ? 
+                                `rgba(16, 185, 129, ${cell/100})` : 
+                                cell > 0 ? `rgba(239, 68, 68, ${cell/100})` : '',
+                              color: cell > 50 ? 'white' : 'inherit'
+                            }}
+                          >
+                            {cell}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+              
+              <div className="mt-4 text-center text-sm text-gray-500">
+                <p>Diagonal cells (green) represent correct predictions. Off-diagonal cells (red) represent errors.</p>
               </div>
             </div>
           </TabsContent>
@@ -129,12 +296,20 @@ const ModelsSection = () => {
               <CardContent className="p-6">
                 <h3 className="font-display text-xl font-semibold mb-6">Sample Predictions</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-                  {Array.from({ length: 10 }).map((_, idx) => (
-                    <div key={idx} className="image-prediction bg-gray-100 rounded-md p-2 text-center">
-                      <div className="bg-gray-200 aspect-square rounded-md mb-2"></div>
+                  {samplePredictions.map((sample, idx) => (
+                    <div key={idx} className="bg-gray-100 rounded-md p-2 text-center">
+                      <div className="aspect-square mb-2 overflow-hidden rounded-md flex items-center justify-center">
+                        <img 
+                          src={sample.image} 
+                          alt={`Fashion MNIST ${sample.true}`} 
+                          className="object-cover w-full h-full"
+                        />
+                      </div>
                       <div className="text-xs">
-                        <p className="font-semibold">True: Shirt</p>
-                        <p className="text-primary">Pred: Shirt</p>
+                        <p className="font-semibold">True: {sample.true}</p>
+                        <p className={sample.correct ? "text-green-600 font-medium" : "text-red-600 font-medium"}>
+                          Pred: {sample.pred}
+                        </p>
                       </div>
                     </div>
                   ))}
