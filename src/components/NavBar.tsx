@@ -9,7 +9,7 @@ const NavBar = () => {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <Shirt className="h-6 w-6 text-primary" />
-          <span className="font-display text-xl font-medium">Fashion Sense</span>
+          <span className="font-display text-xl font-medium">Maison De Parure</span>
         </div>
         <div className="flex items-center space-x-4">
           <Button variant="outline" size="sm" className="hidden sm:flex">
