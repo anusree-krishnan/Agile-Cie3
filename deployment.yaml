@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agilecie3-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: agilecie3-frontend
+  template:
+    metadata:
+      labels:
+        app: agilecie3-frontend
+    spec:
+      containers:
+        - name: agilecie3-frontend
+          image: anusree0418/agilecie3-project-final
+          ports:
+            - containerPort: 80
