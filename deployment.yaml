@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: agilecie3-frontend
+  name: agilecie3-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: agilecie3-frontend
+      app: agilecie3-app
   template:
     metadata:
       labels:
-        app: agilecie3-frontend
+        app: agilecie3-app
     spec:
       containers:
-        - name: agilecie3-frontend
-          image: anusree0418/agilecie3-project-final
-          ports:
-            - containerPort: 80
+      - name: agilecie3-app
+        image: anusree0418/agilecie3-app:latest
+        ports:
+        - containerPort: 5000
